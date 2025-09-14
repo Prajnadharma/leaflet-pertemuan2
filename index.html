@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peta Leaflet - Pertemuan 2</title>
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  
+  <style>
+    #map {
+      height: 100vh;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  
+  <script>
+    // Inisialisasi peta di zoom Indonesia
+    var map = L.map('map').setView([-2.5489, 118.0149], 5);
+
+    // Basemap OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // ==== Custom Icons ====
+    var iconKampus = L.icon({
+      iconUrl: "https://w7.pngwing.com/pngs/156/201/png-transparent-udayana-university-logo-information-technology-universitas-udayana-technology-angle-electronics-text.png", 
+      iconSize: [40, 40],
+    });
+
+    var iconPNB = L.icon({
+      iconUrl: "https://www.pnb.ac.id/img/logo-pnb.3aae610b.png", 
+      iconSize: [40, 40],
+    });
+
+    var iconShop = L.icon({
+      iconUrl: "https://i.pinimg.com/736x/a5/e0/75/a5e075baada8b1518f9d7bf6453e6368.jpg", 
+      iconSize: [35, 35],
+    });
+
+    var iconClandys = L.icon({
+      iconUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDCG_SyOGdtT41mwjKKSAd7abcg8yC2zxBKw&s", 
+      iconSize: [35, 35],
+    });
+
+    var iconFood = L.icon({
+      iconUrl: "https://i.pinimg.com/736x/55/f8/af/55f8afd0d4c2224653f1ba467b6543e8.jpg", 
+      iconSize: [35, 35],
+    });
+
+    var iconKos = L.icon({
+      iconUrl: "https://media.licdn.com/dms/image/v2/D4D03AQFdv8yE20poeA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1718232958917?e=1760572800&v=beta&t=y-BsUdUC_N9b38YjM7510LDx8ul18_7FuCzlZmBUqmU", 
+      iconSize: [35, 35],
+    });
+
+    // ==== Markers dengan alamat lengkap ====
+
+    // Kampus TI
+    var kampusTI = L.marker([-8.7964117, 115.1763638], {icon: iconKampus}).addTo(map);
+    kampusTI.bindPopup("<b>Kampus TI</b><br>Jl. Raya Kampus UNUD, Jimbaran, Kec. Kuta Sel., Kabupaten Badung, Bali 80361");
+
+    // Kampus Sudirman
+    var kampusSudirman = L.marker([-8.6728918, 115.2190587], {icon: iconKampus}).addTo(map);
+    kampusSudirman.bindPopup("<b>Kampus Sudirman</b><br>Jl. PB Sudirman No.1, Dangin Puri Klod, Kec. Denpasar Tim., Kota Denpasar, Bali 80234");
+
+    // PNB
+    var pnb = L.marker([-8.798699, 115.162527], {icon: iconPNB}).addTo(map);
+    pnb.bindPopup("<b>Politeknik Negeri Bali</b><br>Jl. Raya Kampus UNUD, Jimbaran, Kec. Kuta Sel., Kabupaten Badung, Bali 80364");
+
+    // Indomaret Raya Uluwatu
+    var indomaret = L.marker([-8.792529, 115.163421], {icon: iconShop}).addTo(map);
+    indomaret.bindPopup("<b>Indomaret Raya Uluwatu</b><br>Jl. Raya Uluwatu No.184, Jimbaran, Kec. Kuta Sel., Kabupaten Badung, Bali 80361");
+
+    // Indomaret Teknik
+    var indomaretTeknik = L.marker([-8.7972984, 115.1752964], {icon: iconShop}).addTo(map);
+    indomaretTeknik.bindPopup("<b>Indomaret Teknik</b><br>Jl. Kampus Teknik UNUD, Jimbaran, Kec. Kuta Sel., Kabupaten Badung, Bali 80361");
+
+    // Capcay Pak Yono
+    var capcay = L.marker([-8.792686, 115.163375], {icon: iconFood}).addTo(map);
+    capcay.bindPopup("<b>Capcay Pak Yono</b><br>Jl. Raya Uluwatu No.184, Jimbaran, Kec. Kuta Sel., Kabupaten Badung, Bali 80361");
+
+    // Clandys
+    var clandys = L.marker([-8.793098, 115.163297], {icon: iconClandys}).addTo(map);
+    clandys.bindPopup("<b>Clandys Jimbaran</b><br>Jl. Raya Uluwatu No.184, Jimbaran, Kec. Kuta Sel., Kabupaten Badung, Bali 80361");
+
+    // Kos
+    var kos = L.marker([-8.792611, 115.162938], {icon: iconKos}).addTo(map);
+    kos.bindPopup("<b>Kos Villas Lalang Temu</b><br>Jl. Villas Lalang Temu No.11, Jimbaran, Kec. Kuta Sel., Kabupaten Badung, Bali 80361");
+
+  </script>
+</body>
+</html>
