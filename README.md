@@ -18,5 +18,5 @@ Project Web dapat diakses di GitHub Pages pada link berikut:
 ---
 
 ### 3. Menampilkan Marker Lokasi Lain  
-(Kos tinggal saya, Warung Cangcax Pak Yono, Indomaret, Cladys, dan Kampus PNB)  
+(Kos tinggal saya, Warung Cangcay Pak Yono, Indomaret, Cladys, dan Kampus PNB)  
 <img width="1440" height="813" alt="Marker Lokasi Lainnya" src="https://github.com/user-attachments/assets/a42ee808-643f-4869-a6f2-7d736ea4dfbf" />
