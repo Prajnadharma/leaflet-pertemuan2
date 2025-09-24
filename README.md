@@ -1,8 +1,8 @@
 # DASAR WEB MAPPING DENGAN LEAFLET
 
 Project Web dapat diakses di GitHub Pages pada link berikut:  
-Minggu 1 👉 [https://prajnadharma.github.io/leaflet-pertemuan2/Minggu_2/index.html]
-Minggu 2 👉 [https://prajnadharma.github.io/leaflet-pertemuan2/](https://prajnadharma.github.io/leaflet-pertemuan2/)
+Minggu 1 👉 https://prajnadharma.github.io/leaflet-pertemuan2/Minggu_1/index.html
+Minggu 2 👉 https://prajnadharma.github.io/leaflet-pertemuan2/Minggu_2/index.html
 
 ---
 
