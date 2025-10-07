@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peta Batas Administratif Bali - Final</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    html, body, #map {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .leaflet-control-layers {
+      font-size: 14px;
+    }
+    .legend {
+      background: white;
+      padding: 10px;
+      line-height: 18px;
+      color: #333;
+      border-radius: 6px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    }
+    .legend i {
+      width: 18px;
+      height: 18px;
+      float: left;
+      margin-right: 8px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    // Inisialisasi peta
+    const map = L.map('map').setView([-8.4095, 115.1889], 9);
+
+    // Layer dasar
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Warna kabupaten
+    const warnaKabupaten = {
+      "Jembrana": "#f94144",
+      "Tabanan": "#f3722c",
+      "Badung": "#f9c74f",
+      "Gianyar": "#90be6d",
+      "Klungkung": "#43aa8b",
+      "Bangli": "#577590",
+      "Karangasem": "#f9844a",
+      "Buleleng": "#277da1",
+      "Kota Denpasar": "#4d908e"
+    };
+
+    // Layer group
+    const kabupatenLayer = L.layerGroup();
+    const kecamatanLayer = L.layerGroup();
+    const kelurahanLayer = L.layerGroup();
+
+    // File utama kabupaten
+    const kabupatenFiles = [
+      { file: "data/51.01_Jembrana.geojson", name: "Jembrana" },
+      { file: "data/51.02_Tabanan.geojson", name: "Tabanan" },
+      { file: "data/51.03_Badung.geojson", name: "Badung" },
+      { file: "data/51.04_Gianyar.geojson", name: "Gianyar" },
+      { file: "data/51.05_Klungkung.geojson", name: "Klungkung" },
+      { file: "data/51.06_Bangli.geojson", name: "Bangli" },
+      { file: "data/51.07_Karangasem.geojson", name: "Karangasem" },
+      { file: "data/51.08_Buleleng.geojson", name: "Buleleng" },
+      { file: "data/51.71_Kota_Denpasar.geojson", name: "Kota Denpasar" }
+    ];
+
+    // File kecamatan
+    const kecamatanFiles = [
+      { file: "data/51.01_kecamatan.geojson", parent: "Jembrana" },
+      { file: "data/51.02_kecamatan.geojson", parent: "Tabanan" },
+      { file: "data/51.03_kecamatan.geojson", parent: "Badung" },
+      { file: "data/51.04_kecamatan.geojson", parent: "Gianyar" },
+      { file: "data/51.05_kecamatan.geojson", parent: "Klungkung" },
+      { file: "data/51.06_kecamatan.geojson", parent: "Bangli" },
+      { file: "data/51.07_kecamatan.geojson", parent: "Karangasem" },
+      { file: "data/51.08_kecamatan.geojson", parent: "Buleleng" },
+      { file: "data/51.71_kecamatan.geojson", parent: "Kota Denpasar" }
+    ];
+
+    // File kelurahan
+    const kelurahanFiles = [
+      { file: "data/51.01_kelurahan.geojson", parent: "Jembrana" },
+      { file: "data/51.02_kelurahan.geojson", parent: "Tabanan" },
+      { file: "data/51.03_kelurahan.geojson", parent: "Badung" },
+      { file: "data/51.04_kelurahan.geojson", parent: "Gianyar" },
+      { file: "data/51.05_kelurahan.geojson", parent: "Klungkung" },
+      { file: "data/51.06_kelurahan.geojson", parent: "Bangli" },
+      { file: "data/51.07_kelurahan.geojson", parent: "Karangasem" },
+      { file: "data/51.08_kelurahan.geojson", parent: "Buleleng" },
+      { file: "data/51.71_kelurahan.geojson", parent: "Kota Denpasar" }
+    ];
+
+    // Kabupaten
+    kabupatenFiles.forEach(item => {
+      fetch(item.file)
+        .then(res => res.json())
+        .then(data => {
+          const geo = L.geoJSON(data, {
+            style: {
+              color: "white",
+              weight: 1.2,
+              fillColor: warnaKabupaten[item.name],
+              fillOpacity: 0.7
+            },
+            onEachFeature: (feature, layer) => {
+              layer.bindPopup(`<b>${item.name}</b>`);
+            }
+          }).addTo(kabupatenLayer);
+
+          // Label kabupaten
+          geo.eachLayer(l => {
+            if (l.getBounds) {
+              const center = l.getBounds().getCenter();
+              const label = L.divIcon({
+                className: "label-nama",
+                html: `<b style="color:black; font-size:11px; text-shadow:1px 1px 2px white;">${item.name}</b>`
+              });
+              L.marker(center, { icon: label, interactive: false }).addTo(map);
+            }
+          });
+        })
+        .catch(err => console.warn("Gagal memuat", item.file, err));
+    });
+
+    // kecamatan
+    kecamatanFiles.forEach(item => {
+      fetch(item.file)
+        .then(res => res.json())
+        .then(data => {
+          L.geoJSON(data, {
+            style: { color: "#333333", weight: 1.3, fillOpacity: 0 },
+            onEachFeature: (feature, layer) => {
+              layer.bindPopup(`<b>${item.parent}</b>`);
+            }
+          }).addTo(kecamatanLayer);
+        })
+        .catch(err => console.warn("Gagal memuat", item.file, err));
+    });
+
+    // Kelurahan 
+    kelurahanFiles.forEach(item => {
+      fetch(item.file)
+        .then(res => res.json())
+        .then(data => {
+          L.geoJSON(data, {
+            style: { color: "#000000", weight: 0.8, fillOpacity: 0 },
+            onEachFeature: (feature, layer) => {
+              layer.bindPopup(`<b>${item.parent}</b>`);
+            }
+          }).addTo(kelurahanLayer);
+        })
+        .catch(err => console.warn("Gagal memuat", item.file, err));
+    });
+
+    // Layer kabupaten
+    kabupatenLayer.addTo(map);
+
+    // Kontrol toggle layer
+    const overlayMaps = {
+      "Batas Kabupaten": kabupatenLayer,
+      "Batas Kecamatan": kecamatanLayer,
+      "Batas Kelurahan": kelurahanLayer
+    };
+    L.control.layers(null, overlayMaps, { collapsed: false }).addTo(map);
+
+    map.on('overlayadd', e => {
+      if (e.name === "Batas Kecamatan") kecamatanLayer.bringToFront();
+      if (e.name === "Batas Kelurahan") kelurahanLayer.bringToFront();
+    });
+
+    // Legenda warna kabupaten
+    const legend = L.control({ position: "bottomright" });
+    legend.onAdd = function () {
+      const div = L.DomUtil.create("div", "legend");
+      div.innerHTML = "<b>Legenda Kabupaten/Kota</b><br>";
+      for (const [nama, warna] of Object.entries(warnaKabupaten)) {
+        div.innerHTML += `<i style="background:${warna}"></i>${nama}<br>`;
+      }
+      return div;
+    };
+    legend.addTo(map);
+  </script>
+</body>
+</html>
